@@ -22,11 +22,11 @@ import java.net.URLClassLoader;
 
 public class IsolatedClassLoader extends URLClassLoader {
 
-  public IsolatedClassLoader(URL[] urls) {
-    super(urls, ClassLoader.getSystemClassLoader().getParent());
-  }
+    public IsolatedClassLoader(URL[] urls) {
+        super(urls, ClassLoader.getSystemClassLoader().getParent());
+    }
 
-  static {
-    ClassLoader.registerAsParallelCapable();
-  }
+    static {
+        ClassLoader.registerAsParallelCapable();
+    }
 }

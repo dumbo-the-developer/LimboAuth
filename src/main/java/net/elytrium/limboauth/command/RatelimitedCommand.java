@@ -26,24 +26,24 @@ import net.kyori.adventure.text.Component;
 
 public abstract class RatelimitedCommand implements SimpleCommand {
 
-  private final Component ratelimited;
+    private final Component ratelimited;
 
-  public RatelimitedCommand() {
-    this.ratelimited = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.RATELIMITED);
-  }
-
-  @Override
-  public final void execute(SimpleCommand.Invocation invocation) {
-    CommandSource source = invocation.source();
-    if (source instanceof Player) {
-      if (!LimboAuth.RATELIMITER.attempt(((Player) source).getRemoteAddress().getAddress())) {
-        source.sendMessage(this.ratelimited);
-        return;
-      }
+    public RatelimitedCommand() {
+        this.ratelimited = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.RATELIMITED);
     }
 
-    this.execute(source, invocation.arguments());
-  }
+    @Override
+    public final void execute(SimpleCommand.Invocation invocation) {
+        CommandSource source = invocation.source();
+        if (source instanceof Player) {
+            if (!LimboAuth.RATELIMITER.attempt(((Player) source).getRemoteAddress().getAddress())) {
+                source.sendMessage(this.ratelimited);
+                return;
+            }
+        }
 
-  protected abstract void execute(CommandSource source, String[] args);
+        this.execute(source, invocation.arguments());
+    }
+
+    protected abstract void execute(CommandSource source, String[] args);
 }

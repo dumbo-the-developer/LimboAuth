@@ -18,6 +18,7 @@
 package net.elytrium.limboauth.floodgate;
 
 import java.util.UUID;
+
 import org.geysermc.floodgate.api.FloodgateApi;
 
 /**
@@ -25,17 +26,17 @@ import org.geysermc.floodgate.api.FloodgateApi;
  */
 public class FloodgateApiHolder {
 
-  private final FloodgateApi floodgateApi;
+    private final FloodgateApi floodgateApi;
 
-  public FloodgateApiHolder() {
-    this.floodgateApi = FloodgateApi.getInstance();
-  }
+    public FloodgateApiHolder() {
+        this.floodgateApi = FloodgateApi.getInstance();
+    }
 
-  public boolean isFloodgatePlayer(UUID uuid) {
-    return this.floodgateApi.isFloodgatePlayer(uuid);
-  }
+    public boolean isFloodgatePlayer(UUID uuid) {
+        return this.floodgateApi.isFloodgatePlayer(uuid);
+    }
 
-  public int getPrefixLength() {
-    return this.floodgateApi.getPlayerPrefix().length();
-  }
+    public int getPrefixLength() {
+        return this.floodgateApi.getPlayerPrefix().length();
+    }
 }

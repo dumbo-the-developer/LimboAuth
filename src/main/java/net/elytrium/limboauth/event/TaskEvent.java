@@ -18,6 +18,7 @@
 package net.elytrium.limboauth.event;
 
 import java.util.function.Consumer;
+
 import net.elytrium.limboauth.LimboAuth;
 import net.elytrium.limboauth.Settings;
 import net.kyori.adventure.text.Component;
@@ -25,66 +26,66 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class TaskEvent {
 
-  private static Component DEFAULT_REASON;
+    private static Component DEFAULT_REASON;
 
-  private final Consumer<TaskEvent> onComplete;
+    private final Consumer<TaskEvent> onComplete;
 
-  private Result result = Result.NORMAL;
-  private Component reason = DEFAULT_REASON;
+    private Result result = Result.NORMAL;
+    private Component reason = DEFAULT_REASON;
 
-  public TaskEvent(Consumer<TaskEvent> onComplete) {
-    this.onComplete = onComplete;
-  }
-
-  public TaskEvent(Consumer<TaskEvent> onComplete, Result result) {
-    this.onComplete = onComplete;
-    this.result = result;
-  }
-
-  public void complete(@NotNull Result result) {
-    if (this.result != Result.WAIT) {
-      return;
+    public TaskEvent(Consumer<TaskEvent> onComplete) {
+        this.onComplete = onComplete;
     }
 
-    this.result = result;
-    this.onComplete.accept(this);
-  }
-
-  public void completeAndCancel(@NotNull Component reason) {
-    if (this.result != Result.WAIT) {
-      return;
+    public TaskEvent(Consumer<TaskEvent> onComplete, Result result) {
+        this.onComplete = onComplete;
+        this.result = result;
     }
 
-    this.cancel(reason);
-    this.onComplete.accept(this);
-  }
+    public void complete(@NotNull Result result) {
+        if (this.result != Result.WAIT) {
+            return;
+        }
 
-  public void cancel(@NotNull Component reason) {
-    this.result = Result.CANCEL;
-    this.reason = reason;
-  }
+        this.result = result;
+        this.onComplete.accept(this);
+    }
 
-  public void setResult(@NotNull Result result) {
-    this.result = result;
-  }
+    public void completeAndCancel(@NotNull Component reason) {
+        if (this.result != Result.WAIT) {
+            return;
+        }
 
-  public Result getResult() {
-    return this.result;
-  }
+        this.cancel(reason);
+        this.onComplete.accept(this);
+    }
 
-  public Component getReason() {
-    return this.reason;
-  }
+    public void cancel(@NotNull Component reason) {
+        this.result = Result.CANCEL;
+        this.reason = reason;
+    }
 
-  public static void reload() {
-    DEFAULT_REASON = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.EVENT_CANCELLED);
-  }
+    public void setResult(@NotNull Result result) {
+        this.result = result;
+    }
 
-  public enum Result {
+    public Result getResult() {
+        return this.result;
+    }
 
-    CANCEL,
-    BYPASS,
-    NORMAL,
-    WAIT
-  }
+    public Component getReason() {
+        return this.reason;
+    }
+
+    public static void reload() {
+        DEFAULT_REASON = LimboAuth.getSerializer().deserialize(Settings.IMP.MAIN.STRINGS.EVENT_CANCELLED);
+    }
+
+    public enum Result {
+
+        CANCEL,
+        BYPASS,
+        NORMAL,
+        WAIT
+    }
 }
